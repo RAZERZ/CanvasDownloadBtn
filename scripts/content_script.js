@@ -11,10 +11,20 @@ addDownloadOnClick = element => {
 
 }
 
-//addDownloadOnClickModule = element => {
+fileDirectoryDownloadOnClick = fileMainDir => {
 
+  fileDirectoryRows = fileMainDir.getElementsByClassName("ef-item-row");
 
-//}
+  for(i=0;i< fileDirectoryRows.length; i++) {
+
+    fileDirectoryRowLink = fileDirectoryRows[i].getElementsByTagName("a")[0];
+
+    //Haxed lmfao
+    addDownloadOnClick(fileDirectoryRowLink);
+
+  }
+
+}
 
 //Determine where user is, depending on if the container is already classified as a file we can save computations
 
@@ -25,19 +35,26 @@ window.onload = () => {
 
     fileContainer = document.getElementsByClassName("ef-main")[0];
     fileDirectory = document.getElementsByClassName("ef-directory")[0];
-    fileDirectoryRows = fileDirectory.getElementsByClassName("ef-item-row");
 
     //Recursive search in rows
+    if(fileDirectory.getElementsByClassName("paginatedView-loading").length) {
 
-    for(i=0;i< fileDirectoryRows.length; i++) {
+      if(fileDirectory.getElementsByClassName("paginatedView-loading")[0].getAttribute("style")== "display: none;") {
 
-      fileDirectoryRowLink = fileDirectoryRows[i].getElementsByTagName("a")[0];
+        fileDirectoryDownloadOnClick(fileDirectory);
 
-      //Haxed
-      
-      addDownloadOnClick(fileDirectoryRowLink);
+      }
+      else {
+
+        observer = new MutationObserver(() => {
+          fileDirectoryDownloadOnClick(fileDirectory);
+        });
+        observer.observe(fileDirectory.getElementsByClassName("paginatedView-loading")[0], {attributes:true})
+
+      }
 
     }
+    
 
   }
   else if(document.getElementById("context_modules")){
