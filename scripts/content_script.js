@@ -69,31 +69,33 @@ window.onload = () => {
       contextModuleList = contextModulesContent.getElementsByTagName("ul")[0].getElementsByTagName("li");
 
       for(j=0; j< contextModuleList.length; j++) {
+        
+        if(contextModuleList[j].getAttribute("class") !== null) {
 
-        //In modules, the file name is stored as a class name in the list tag, just adding "download" to the "a" tag will download HTML
+          //In modules, the file name is stored as a class name in the list tag, just adding "download" to the "a" tag will download HTML
 
-        downloadA = contextModuleList[j].getElementsByTagName("a");
-        listClasses = contextModuleList[j].getAttribute("class").match(/\S+/g)||[]
+          downloadA = contextModuleList[j].getElementsByTagName("a");
+          listClasses = contextModuleList[j].getAttribute("class").match(/\S+/g)||[]
 
-        if((contextModuleList[j].getAttribute("class").match(/\S+/g)||[]).findIndex(element => element.includes("Attachment")) > 0) {
-          attachmentIndex = (listClasses).findIndex(element => element.includes("Attachment"));
-          fileIndexName = listClasses[attachmentIndex].replace("Attachment_", "");
-          
-          if(downloadA.length > 1) {
+          if((contextModuleList[j].getAttribute("class").match(/\S+/g)||[]).findIndex(element => element.includes("Attachment")) > 0) {
+            attachmentIndex = (listClasses).findIndex(element => element.includes("Attachment"));
+            fileIndexName = listClasses[attachmentIndex].replace("Attachment_", "");
+            
+            if(downloadA.length > 1) {
 
-            fileLocationBuilder = downloadA[1].getAttribute("href").split("/").slice(0,3);
-            fileLocationBuilder.push("files");
-            fileLocationBuilder.push(fileIndexName); 
-            fileLocationBuilder.push("download?download_frd=1");
+              fileLocationBuilder = downloadA[1].getAttribute("href").split("/").slice(0,3);
+              fileLocationBuilder.push("files");
+              fileLocationBuilder.push(fileIndexName); 
+              fileLocationBuilder.push("download?download_frd=1");
 
-            downloadA[1].setAttribute("href", fileLocationBuilder.join("/"))
+              downloadA[1].setAttribute("href", fileLocationBuilder.join("/"))
 
-            addDownloadOnClick(downloadA[1]);
+              addDownloadOnClick(downloadA[1]);
+            }
+
           }
 
         }
-
-
       }
 
     }
@@ -104,5 +106,3 @@ window.onload = () => {
   }
 
 }
-
-
